@@ -12,24 +12,12 @@
         
         let slideIndex = 0; // первоначальный номер слайда
 
+        let interval;
+
         if(!settings['controls']){
             $('.slider-indicators').remove();
             $('.slider-swap').remove();
         }
-
-        if (settings['autoSwap']) {
-            let interval = autoSwapInterval();
-            if(!settings['autoSwapOnMouserover']){
-                $('.slider').on('mouseover', function() {
-                    clearInterval(interval);
-                });
-    
-                $('.slider').on('mouseleave', function() {
-                    interval = autoSwapInterval();
-                });
-            }
-        }
-
 
         /*Добавляем стили ввёденный пользователем или дефолтные*/
         settingParameters(settings['color'], settings['size']);
@@ -40,6 +28,30 @@
         function showSlide(index) {
             /*обнуление стилей для слайдов и индетификаторов*/
             resetStyles();
+
+            if (settings['autoSwap']) {
+                autoSwaping();
+                if (!settings['autoSwapOnMouserover']) {
+                    $('.slider').on('mouseover', function(){
+                        clearTimeout(interval);
+                    });
+                    $('.slider').on('mouseleave', function(){
+                        autoSwaping()
+                    });
+                }
+            }
+
+            function autoSwaping() {
+                clearTimeout(interval);
+                interval = setTimeout(function(){
+                    plusSlide(1);
+                }, settings['autoSwapTime']);
+                // if (!settings['autoSwapOnMouserover']) {
+                    // $('.slider').on('mouseleave', function(){
+                    //     plusSlide(1);
+                    // }, settings['autoSwapTime']);
+                // }
+            }
             
             if(index > $('.slider-item').length -1){
                 slideIndex = 0;  //Если мы переключили последний слайд на следующий, открывается первый
@@ -76,16 +88,16 @@
         
         /*открытие нужного слайда при нажатии на идентификатор*/
         $('.slider-indicators').on('click', '.slider-indicator', function(){
-            slideIndex=$('.slider-indicators .slider-indicator').index(this);
 
+            slideIndex=$('.slider-indicators .slider-indicator').index(this);
             showSlide(slideIndex);
         });
         
         /*открытие нужного слайда при нажатии на стрелки на клавиатуре или кнопки от 1 до 9*/
         if (settings['controls']) {
             $("body").keydown(function(event) {
-                if ((event.which-48) > 0 && (event.which-48) < $('.slider-item').length+1 && $('.slider-item').length < 10) {
-                    showSlide(slideIndex = event.which - 48);
+                if ((event.which-49) > -1 && (event.which-49) < $('.slider-item').length+1 && $('.slider-item').length < 10) {
+                    showSlide(slideIndex = event.which - 49);
                 }   
                 if (event.which == 39){
                     plusSlide(1);
@@ -101,13 +113,6 @@
 
         function rightSwipe() {
             plusSlide(-1);
-        }
-
-        /*Автоматическое переключение слайдов*/
-        function autoSwapInterval(){
-            return setInterval(function(){
-                plusSlide(1);
-            }, settings['autoSwapTime']);
         }
 
         /*открывает следующий/предыдущий слайд*/
