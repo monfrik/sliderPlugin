@@ -14,13 +14,8 @@
 
         let interval;
 
-        if(!settings['controls']){
-            $('.slider-indicators').remove();
-            $('.slider-swap').remove();
-        }
-
         /*Добавляем стили ввёденный пользователем или дефолтные*/
-        settingParameters(settings['color'], settings['size']);
+        settingParameters(settings['color'], settings['size'], settings['controls']);
         
         /*открытие слайда*/
         showSlide(slideIndex);
@@ -39,18 +34,6 @@
                         autoSwaping()
                     });
                 }
-            }
-
-            function autoSwaping() {
-                clearTimeout(interval);
-                interval = setTimeout(function(){
-                    plusSlide(1);
-                }, settings['autoSwapTime']);
-                // if (!settings['autoSwapOnMouserover']) {
-                    // $('.slider').on('mouseleave', function(){
-                    //     plusSlide(1);
-                    // }, settings['autoSwapTime']);
-                // }
             }
             
             if(index > $('.slider-item').length -1){
@@ -96,7 +79,7 @@
         /*открытие нужного слайда при нажатии на стрелки на клавиатуре или кнопки от 1 до 9*/
         if (settings['controls']) {
             $("body").keydown(function(event) {
-                if ((event.which-49) > -1 && (event.which-49) < $('.slider-item').length+1 && $('.slider-item').length < 10) {
+                if ((event.which-49) > -1 && (event.which-49) < $('.slider-item').length + 1 && $('.slider-item').length < 10) {
                     showSlide(slideIndex = event.which - 49);
                 }   
                 if (event.which == 39){
@@ -119,8 +102,15 @@
         function plusSlide(n){
             showSlide(slideIndex += n);
         }
+
+        function autoSwaping() {
+            clearTimeout(interval);
+            interval = setTimeout(function(){
+                plusSlide(1);
+            }, settings['autoSwapTime']);
+        }
         
-        function settingParameters(color, size){
+        function settingParameters(color, size, controls){
             $('.slider-arrow').css('borderColor', color); 
             $('.slider-indicator').css('borderColor', color);
             $('.slider-img').each(function(){
@@ -145,6 +135,11 @@
                     $(this).css('max-width', '100%');
                 }
             });
+
+            if(!controls){
+                $('.slider-indicators').remove();
+                $('.slider-swap').remove();
+            }
         }
 
         function resetStyles(){
