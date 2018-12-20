@@ -1,0 +1,115 @@
+.slider {
+    width: 1000px;
+    height: 500px;
+    position: relative;
+}
+.slider-swap {
+    position: absolute;
+    cursor: pointer;
+    top: 5%;
+    width: 90px;
+    background: rgba(0, 0, 0, 0) linear-gradient(transparent,rgba(0,0,0,.5),transparent);
+    -webkit-transition: 0.6s;
+    transition: 0.6s;
+    height: 90%;
+    z-index: 10;
+    opacity: .5;
+}
+.slider-swap:hover {
+    transition: 0.6s;
+    opacity: 1;
+}
+.slider-prev{
+    left: 0%;
+}
+.slider-next{
+    right: 0%;
+}
+.slider-arrow{
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    border-radius: 50%;
+    border: 2px solid #c78030;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%);
+    -ms-transform: translate(-50%);
+    transform: translate(-50%);
+    -webkit-transition: 0.6s;
+    transition: 0.6s;
+}
+.slider-arrow::before{
+    content: '';
+    width: 0 !important;
+    height: 0;
+    height: auto;
+    width: auto;
+    display: block;
+    border: 10px solid transparent;
+    position: absolute;
+    transform: scaleY(0.6);
+    top: 18%;   
+}
+.slider-arrow-right::before{
+    border-left-color: inherit;
+    left: 38%;
+}
+.slider-arrow-left::before{
+    border-right-color: inherit;
+    right: 38%;
+}
+.slider-wrap {
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+.slider-item {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    opacity: 0;
+}
+.slider-item.show{
+    opacity: 1;
+    transition: .6s;
+}
+.slider-img {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+.slider-indicators {
+    padding: 0;
+    position: absolute;
+    width: 50%;
+    left: 50%;
+    height: 16px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    bottom: 0;
+    transform: translateX(-50%);
+}
+.slider-indicator {
+    cursor: pointer;
+    height: 16px;
+    width: 16px;
+    margin: 0 10px;
+    border: 2px solid #c78030;
+    border-radius: 50%;
+    display: inline-block;
+    -webkit-transition: background-color 0.6s ease;
+    transition: background-color 0.6s ease;
+}
